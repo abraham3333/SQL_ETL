@@ -74,7 +74,26 @@ FROM orders;
 SELECT 
     customer_id AS customer_key,
     CONCAT(first_name, ' ', last_name) AS full_name,
-    email,
+    email, created_at
+    FROM customers;
+
+
+-------------------------------------
+--3 Load
+--Dönüştürülen verileri hedef tablolara yükleyeceğiz.
+
+--Load Customers into dim_customers
+INSERT INTO dim_customers (customer_key, full_name, email, created_at)
+SELECT customer_key, full_name, email, created_at
+FROM transformed_customers;
+
+-- Load orders into fact_orders
+INSERT INTO fact_orders (order_key, customer_key, order_date, amount)
+SELECT order_key, customer_key, order_date, amount
+FROM transformed_orders;
+
+
+
 
 
 
